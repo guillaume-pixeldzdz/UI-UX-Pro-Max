@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp -r /tmp/ui-ux-pro-max-skill/. .)",
+      "Bash(rm -rf .git/modules)"
+    ]
+  }
+}
