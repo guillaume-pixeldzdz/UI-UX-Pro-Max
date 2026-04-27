@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Punto Amor — by Loucas Mengal</title>
+  <meta name="description" content="Punto Amor by Loucas Mengal — Une maison où la cuisine latine se savoure comme une caresse. Restaurant, bar et terrasse au cœur de Paris." />
+  <meta name="theme-color" content="#1a0f0a" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231a0f0a'/%3E%3Ctext x='50' y='66' font-family='Georgia,serif' font-size='58' text-anchor='middle' fill='%23d8a96a'%3EP%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ========== TOP BAR ========== -->
+  <header class="topbar" id="topbar">
+    <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false" id="menuToggle">
+      <span></span><span></span><span></span>
+    </button>
+
+    <a href="#hero" class="brand" aria-label="Punto Amor — accueil">
+      <span class="brand-mark">Punto Amor</span>
+      <span class="brand-sub">by Loucas Mengal</span>
+    </a>
+
+    <div class="topbar-right">
+      <div class="lang" role="group" aria-label="Langue">
+        <button class="lang-btn active" type="button">FR</button>
+        <span aria-hidden="true">/</span>
+        <button class="lang-btn" type="button">EN</button>
+      </div>
+      <a href="#reservation" class="btn-reserve">Réserver</a>
+    </div>
+  </header>
+
+  <!-- ========== FULLSCREEN NAV ========== -->
+  <nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+    <div class="nav-inner">
+      <ul class="nav-list">
+        <li><a href="#maison" data-i="01">La Maison</a></li>
+        <li><a href="#tables" data-i="02">Nos Tables</a></li>
+        <li><a href="#bar" data-i="03">Le Bar</a></li>
+        <li><a href="#chef" data-i="04">Le Chef</a></li>
+        <li><a href="#carnet" data-i="05">Carnet d'amour</a></li>
+        <li><a href="#reservation" data-i="06">Réserver</a></li>
+      </ul>
+      <div class="nav-foot">
+        <p>14, rue de Sévigné<br/>75004 Paris</p>
+        <p>+33 1 42 00 00 00<br/>hola@puntoamor.paris</p>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="hero">
+    <div class="hero-media">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2400&q=80" alt="Salle du restaurant Punto Amor au crépuscule" />
+      <div class="hero-veil"></div>
+    </div>
+
+    <div class="hero-content">
+      <p class="eyebrow">— Paris, Le Marais</p>
+      <h1 class="hero-title">
+        <span class="line">Punto</span>
+        <span class="line italic">Amor</span>
+      </h1>
+      <p class="hero-tag">by Loucas Mengal</p>
+      <p class="hero-lede">
+        Une maison où la cuisine latine se savoure&nbsp;<br class="hide-sm"/>
+        comme une caresse. Le feu, le sel, le tendre&nbsp;—&nbsp;et le temps qu'il faut.
+      </p>
+    </div>
+
+    <a class="hero-scroll" href="#maison" aria-label="Faire défiler">
+      <span class="hero-scroll-line"></span>
+      <span class="hero-scroll-label">Découvrir</span>
+    </a>
+  </section>
+
+  <!-- ========== INTRO / LA MAISON ========== -->
+  <section class="section maison" id="maison">
+    <div class="section-head">
+      <span class="chapter">Chapitre I</span>
+      <h2 class="display">La Maison</h2>
+    </div>
+
+    <div class="maison-grid">
+      <div class="maison-text reveal">
+        <p class="dropcap">
+          <span class="drop">P</span>oussez la grande porte d'acajou&nbsp;: vous quittez Paris pour une lumière plus chaude, plus mate. Punto Amor est une lettre d'amour à la cuisine latine, signée Loucas Mengal, écrite au feu de bois et au rythme d'une rumba lente.
+        </p>
+        <p>
+          Trois espaces se répondent dans le silence des moulures&nbsp;: une salle aux velours brûlés, un bar de marbre veiné de cuivre, un patio caché sous les glycines. Partout, la même promesse&nbsp;— manger comme on aime, lentement, sincèrement.
+        </p>
+        <a href="#tables" class="link-arrow">Visiter la maison</a>
+      </div>
+
+      <figure class="maison-figure reveal">
+        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80" alt="Détail d'une table dressée, vaisselle en céramique chaude" />
+        <figcaption>Table dressée à la table d'hôtes, sept couverts.</figcaption>
+      </figure>
+    </div>
+
+    <ul class="kpi" aria-label="Repères">
+      <li><span class="kpi-num">2024</span><span class="kpi-lab">Ouverture</span></li>
+      <li><span class="kpi-num">42</span><span class="kpi-lab">Couverts</span></li>
+      <li><span class="kpi-num">III</span><span class="kpi-lab">Espaces</span></li>
+      <li><span class="kpi-num">∞</span><span class="kpi-lab">Histoires</span></li>
+    </ul>
+  </section>
+
+  <!-- ========== TABLES ========== -->
+  <section class="section tables" id="tables">
+    <div class="section-head">
+      <span class="chapter">Chapitre II</span>
+      <h2 class="display">Nos <em>Tables</em></h2>
+      <p class="section-lede">Trois manières d'aimer Punto Amor — choisissez la vôtre.</p>
+    </div>
+
+    <article class="card reveal">
+      <figure class="card-media">
+        <img src="https://images.unsplash.com/photo-1592861956120-e524fc739696?auto=format&fit=crop&w=1600&q=80" alt="Salle principale du restaurant" />
+      </figure>
+      <div class="card-body">
+        <span class="card-num">01</span>
+        <h3 class="card-title">La Salle <em>Mengal</em></h3>
+        <p class="card-kicker">Le restaurant signature</p>
+        <p>
+          Une salle basse, dorée à la cire, où Loucas signe un menu&nbsp;dégustation en sept temps&nbsp;: ceviches au lait de tigre, agneau confit&nbsp;douze heures, mole oaxaqueño au cacao criollo. La cuisine&nbsp;ouverte gronde doucement, on l'entend respirer.
+        </p>
+        <dl class="card-meta">
+          <div><dt>Service</dt><dd>Dîner du mardi au samedi</dd></div>
+          <div><dt>Menu</dt><dd>Dégustation 7 temps · 145€</dd></div>
+          <div><dt>Cave</dt><dd>500 références — Espagne, Argentine, Mexique</dd></div>
+        </dl>
+        <a href="#reservation" class="link-arrow">Réserver une table</a>
+      </div>
+    </article>
+
+    <article class="card reverse reveal">
+      <figure class="card-media">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1600&q=80" alt="Le bar et ses étagères de spiritueux" />
+      </figure>
+      <div class="card-body">
+        <span class="card-num">02</span>
+        <h3 class="card-title">El <em>Patio</em></h3>
+        <p class="card-kicker">La table du jour</p>
+        <p>
+          Sous une verrière voilée de vigne, le déjeuner se prolonge en sieste. Une carte plus libre — tostadas du marché, pluma ibérica au charbon, flan brûlé au mezcal — pour ceux qui aiment quand midi dure jusqu'à trois heures.
+        </p>
+        <dl class="card-meta">
+          <div><dt>Service</dt><dd>Déjeuner du mardi au dimanche</dd></div>
+          <div><dt>Carte</dt><dd>Entrées 18€ · Plats 32€ · Desserts 14€</dd></div>
+          <div><dt>Esprit</dt><dd>Décontracté, ensoleillé, en terrasse</dd></div>
+        </dl>
+        <a href="#reservation" class="link-arrow">Réserver le déjeuner</a>
+      </div>
+    </article>
+
+    <article class="card reveal">
+      <figure class="card-media">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80" alt="Table d'hôtes intime éclairée à la bougie" />
+      </figure>
+      <div class="card-body">
+        <span class="card-num">03</span>
+        <h3 class="card-title">La Table <em>d'Hôtes</em></h3>
+        <p class="card-kicker">Une expérience à sept</p>
+        <p>
+          Au cœur des cuisines, sept couverts seulement — face au piano. Loucas Mengal cuisine devant vous, raconte chaque plat, ouvre chaque bouteille. Une soirée privée, deux fois par semaine, sur réservation uniquement.
+        </p>
+        <dl class="card-meta">
+          <div><dt>Soirées</dt><dd>Mercredis &amp; vendredis · 20h30</dd></div>
+          <div><dt>Tarif</dt><dd>320€ — accords mets &amp; vins inclus</dd></div>
+          <div><dt>Capacité</dt><dd>7 convives</dd></div>
+        </dl>
+        <a href="#reservation" class="link-arrow">Demander une place</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- ========== BAR ========== -->
+  <section class="section bar" id="bar">
+    <div class="bar-grid">
+      <div class="bar-text reveal">
+        <span class="chapter">Chapitre III</span>
+        <h2 class="display">Le Bar <em>Corazón</em></h2>
+        <p>
+          Marbre saumon, laiton patiné, miroirs piqués&nbsp;: le bar ouvre dès dix-huit heures. À la carte, vingt-quatre cocktails signés à quatre mains avec la cheffe-barmaid Inés Salgado — autour de l'agave, de l'amer, du fruit mûr et de l'épice douce.
+        </p>
+        <ul class="signature-list">
+          <li>
+            <span class="sig-name">Punto Amor</span>
+            <span class="sig-desc">Mezcal Espadín · hibiscus · poivre rose · soda à la rose</span>
+            <span class="sig-price">19€</span>
+          </li>
+          <li>
+            <span class="sig-name">Boléro</span>
+            <span class="sig-desc">Pisco Italia · cardamome verte · citron de Menton · soufflé blanc d'œuf</span>
+            <span class="sig-price">21€</span>
+          </li>
+          <li>
+            <span class="sig-name">Madrugada</span>
+            <span class="sig-desc">Rhum agricole · café arabica froid · cacao amer · vermouth de Reus</span>
+            <span class="sig-price">22€</span>
+          </li>
+          <li>
+            <span class="sig-name">Verde Limón</span>
+            <span class="sig-desc">Tequila blanco · coriandre · jalapeño · gel de citron vert · sel de mer</span>
+            <span class="sig-price">19€</span>
+          </li>
+        </ul>
+        <a href="#reservation" class="link-arrow">Réserver au bar</a>
+      </div>
+
+      <figure class="bar-figure reveal">
+        <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1400&q=80" alt="Cocktail servi au bar Corazón" />
+      </figure>
+    </div>
+  </section>
+
+  <!-- ========== CHEF ========== -->
+  <section class="section chef" id="chef">
+    <div class="chef-grid">
+      <figure class="chef-portrait reveal">
+        <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=1200&q=80" alt="Portrait de Loucas Mengal" />
+        <figcaption>Loucas Mengal — chef &amp; fondateur</figcaption>
+      </figure>
+
+      <div class="chef-text reveal">
+        <span class="chapter">Chapitre IV</span>
+        <h2 class="display">Loucas <em>Mengal</em></h2>
+        <p class="chef-quote">
+          «&nbsp;Je cuisine comme on déclare sa flamme&nbsp;: sans détour, avec ce qu'on a de plus brûlant, et le souci des autres.&nbsp;»
+        </p>
+        <p>
+          Né à Bayonne d'une mère mexicaine et d'un père catalan, Loucas Mengal grandit entre deux cuisines, deux langues, deux feux. Après dix ans passés aux fourneaux de Pujol à Mexico, du Disfrutar à Barcelone et de l'Arpège à Paris, il ouvre Punto Amor en 2024 — la maison qu'il s'imaginait, enfant, en mettant la table pour ses grands-mères.
+        </p>
+        <p>
+          Sa cuisine est une grammaire&nbsp;: produits français, accents latins, gestes anciens. Tout y est de saison, presque tout y est cuit au feu, rien n'y est neutre.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CARNET / EDITORIAL ========== -->
+  <section class="section carnet" id="carnet">
+    <div class="section-head">
+      <span class="chapter">Chapitre V</span>
+      <h2 class="display">Carnet <em>d'amour</em></h2>
+      <p class="section-lede">Saisons, rencontres, bonnes nouvelles — quelques pages de la maison.</p>
+    </div>
+
+    <div class="carnet-grid">
+      <article class="carnet-card reveal">
+        <figure>
+          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80" alt="Plat de saison" />
+        </figure>
+        <div class="carnet-body">
+          <span class="carnet-tag">Saison · Printemps</span>
+          <h3>Les premières fèves</h3>
+          <p>Cette semaine au menu&nbsp;: fèves crues à l'huile d'olive de Jaén, jambon ibérico de bellota cinq ans, fleur de sel d'Aigues-Mortes.</p>
+        </div>
+      </article>
+
+      <article class="carnet-card reveal">
+        <figure>
+          <img src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=1200&q=80" alt="Cave à vin" />
+        </figure>
+        <div class="carnet-body">
+          <span class="carnet-tag">Cave · Rencontre</span>
+          <h3>Quatre nuits avec Envínate</h3>
+          <p>Du 12 au 15 mai, le domaine canarien Envínate dîne à la table d'hôtes. Quatre soirées, vingt-huit places, une cave entière à ouvrir.</p>
+        </div>
+      </article>
+
+      <article class="carnet-card reveal">
+        <figure>
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80" alt="Soirée privée" />
+        </figure>
+        <div class="carnet-body">
+          <span class="carnet-tag">Privatisation</span>
+          <h3>Punto Amor pour les vôtres</h3>
+          <p>Anniversaires, mariages, dîners de presse&nbsp;: la maison se privatise du dimanche au lundi. Sur-mesure, jusqu'à 80 convives.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ========== RESERVATION ========== -->
+  <section class="section reservation" id="reservation">
+    <div class="reservation-inner">
+      <span class="chapter light">Chapitre VI</span>
+      <h2 class="display light">Une table <em>vous attend</em></h2>
+      <p class="reservation-lede">
+        Réservez votre soirée à la salle Mengal, au Patio, à la table d'hôtes ou simplement au bar.
+        Nous prenons soin de chaque demande.
+      </p>
+
+      <form class="reservation-form" onsubmit="event.preventDefault(); document.getElementById('formNote').hidden=false;">
+        <div class="field">
+          <label for="r-name">Nom</label>
+          <input id="r-name" name="name" type="text" required placeholder="Votre nom" />
+        </div>
+        <div class="field">
+          <label for="r-email">Email</label>
+          <input id="r-email" name="email" type="email" required placeholder="vous@exemple.com" />
+        </div>
+        <div class="field">
+          <label for="r-date">Date</label>
+          <input id="r-date" name="date" type="date" required />
+        </div>
+        <div class="field">
+          <label for="r-time">Heure</label>
+          <input id="r-time" name="time" type="time" required />
+        </div>
+        <div class="field">
+          <label for="r-guests">Convives</label>
+          <select id="r-guests" name="guests" required>
+            <option value="2">2 personnes</option>
+            <option value="3">3 personnes</option>
+            <option value="4">4 personnes</option>
+            <option value="5">5 personnes</option>
+            <option value="6">6 personnes</option>
+            <option value="7">7 personnes (table d'hôtes)</option>
+            <option value="8+">8 et plus — privatisation</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="r-table">Espace</label>
+          <select id="r-table" name="table" required>
+            <option value="salle">La Salle Mengal</option>
+            <option value="patio">El Patio — déjeuner</option>
+            <option value="hotes">Table d'hôtes — 7 couverts</option>
+            <option value="bar">Le Bar Corazón</option>
+          </select>
+        </div>
+        <div class="field field-full">
+          <label for="r-note">Un mot pour nous (optionnel)</label>
+          <textarea id="r-note" name="note" rows="3" placeholder="Allergies, occasion, demandes particulières…"></textarea>
+        </div>
+        <button class="btn-primary" type="submit">Envoyer la demande</button>
+        <p class="form-note" id="formNote" hidden>
+          Merci&nbsp;— votre demande est notée. La maison vous écrit sous 24h.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer" id="footer">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand">Punto Amor</p>
+        <p class="footer-sub">by Loucas Mengal</p>
+      </div>
+      <div>
+        <h4>Adresse</h4>
+        <p>14, rue de Sévigné<br/>75004 Paris</p>
+        <p><a href="https://maps.google.com/?q=14+rue+de+Sévigné+75004+Paris" target="_blank" rel="noopener">Itinéraire →</a></p>
+      </div>
+      <div>
+        <h4>Horaires</h4>
+        <p>Mardi — Samedi&nbsp;: 12h — 14h30 · 19h — 23h<br/>
+           Dimanche&nbsp;: 12h — 16h<br/>
+           Lundi&nbsp;: fermé</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>+33 1 42 00 00 00<br/>hola@puntoamor.paris</p>
+        <ul class="social">
+          <li><a href="#" aria-label="Instagram">Instagram</a></li>
+          <li><a href="#" aria-label="Spotify">Playlist</a></li>
+        </ul>
+      </div>
+      <div class="newsletter">
+        <h4>Le journal de la maison</h4>
+        <p>Une lettre par saison. Rien d'autre.</p>
+        <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Merci ✦';">
+          <input type="email" required placeholder="vous@exemple.com" aria-label="Email" />
+          <button type="submit">S'abonner</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-base">
+      <p>© 2026 Punto Amor — Maison Mengal · Paris</p>
+      <p><a href="#">Mentions légales</a> · <a href="#">Confidentialité</a> · <a href="#">Presse</a></p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
