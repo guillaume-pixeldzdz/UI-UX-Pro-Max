@@ -1,7 +1,20 @@
-# UI-UX-Pro-Max — Pont Unity ⇄ Videoshow
+# UI-UX-Pro-Max — Hotkey Videoshow
 
-Scripts Unity pour déclencher les animations de l'application **Videoshow VRA — Audition Morand**
-(qui tourne localement à `http://localhost:8123`) depuis un projet Unity, via des requêtes HTTP.
+Déclencher les animations de **Videoshow VRA — Audition Morand** (serveur local
+`http://localhost:8123`) avec la touche **²** depuis n'importe quelle application.
+
+## Deux approches
+
+### 🔑 Approche recommandée : AutoHotkey (`autohotkey/`)
+
+Un petit script qui tourne dans la barre des tâches, écoute la touche ² au
+niveau Windows, et envoie une requête HTTP à Videoshow. Aucune dépendance à
+Unity. **→ Voir `autohotkey/README.md`.**
+
+### 🎮 Approche Unity (`Assets/`)
+
+Scripts Unity pour déclencher la même chose depuis votre projet Unity, soit
+quand Unity a le focus, soit globalement via un hotkey système.
 
 ## Contenu
 
