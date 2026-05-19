@@ -1,107 +1,113 @@
 ; =============================================================================
-;  videoshow-hotkey.ahk  (version multi-écrans / multi-fenêtres)
+;  videoshow-hotkey.ahk
 ;
-;  Quand vous appuyez sur ² depuis n'importe quelle application,
-;  ce script renvoie la touche ² à TOUTES les fenêtres Videoshow ouvertes
-;  (régie + affichage). La régie réagit, l'affichage ignore.
+;  Quand vous appuyez sur ² depuis n'importe quelle application, ce script
+;  trouve la fenêtre "Vidéoshow — Audition Morand" et lui renvoie la touche ².
 ;
 ;  AutoHotkey v2 requis : https://www.autohotkey.com/
 ;
 ;  Usage :
-;    1. Videoshow doit être ouvert (régie + affichage).
+;    1. Videoshow doit être ouvert.
 ;    2. Double-cliquer ce fichier : icône H verte dans la barre des tâches.
 ;    3. Depuis n'importe quelle app : ² -> Videoshow joue l'animation.
-;    4. Pour arrêter : clic droit sur l'icône H -> Exit.
+;    4. Pour vérifier que le script fait son travail, regardez les
+;       notifications (bulle en bas à droite) ET le log à côté du script.
+;    5. Pour arrêter : clic droit sur l'icône H -> Exit.
+;
+;  Si ça ne marche pas, appuyez sur F12 : ça force un déclenchement en mode
+;  "debug" très verbeux. Ouvrez ensuite le fichier videoshow-hotkey.log
+;  pour voir ce qui s'est réellement passé.
 ; =============================================================================
 
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 Persistent
 
-SetTitleMatchMode 2  ; "contient" partout dans le titre, pas seulement au début
+SetTitleMatchMode 2  ; "contient" partout dans le titre
 
 ; ---------------------------------------------------------------------------
 ;  CONFIGURATION
 ; ---------------------------------------------------------------------------
 
-; Liste de motifs cherchés dans le titre des fenêtres ouvertes.
-; Le script envoie la touche à toute fenêtre dont le titre contient un de ces motifs.
-; Ajoutez/retirez à votre convenance.
+; Motifs cherchés dans le titre. Toute fenêtre dont le titre contient un de
+; ces motifs sera ciblée. La diagnostic a confirmé "Audition Morand".
 WINDOW_PATTERNS := [
-    "Videoshow",
     "Audition Morand",
+    "Vidéoshow",
+    "Videoshow",
     "VRA",
     "localhost:8123"
 ]
 
-; Délai (ms) pendant lequel chaque fenêtre garde le focus pour recevoir la touche.
-; 50-100 ms = bon compromis. Monter à 150 si l'animation ne se déclenche pas.
-FOCUS_DELAY_MS := 60
+; Délai (ms) entre activation de la fenêtre et envoi de la touche.
+FOCUS_DELAY_MS := 80
 
-; Afficher une notification à chaque déclenchement (true/false).
+; Notifications dans la barre des tâches.
 SHOW_NOTIFICATIONS := true
 
-; Fichier de log ("" pour désactiver).
+; Log détaillé (utile en cas de problème).
 LOG_FILE := A_ScriptDir "\videoshow-hotkey.log"
 
 ; ---------------------------------------------------------------------------
-TrayTip "Videoshow Hotkey", "Actif. Appuyez sur ² depuis n'importe où.", 0x1
+TrayTip "Videoshow Hotkey", "Actif. Appuyez sur ² depuis n'importe où.`n(F12 = mode debug)", 0x1
 LogLine("===== Démarrage =====")
 
-; SC029 = touche en haut à gauche du clavier (² sur AZERTY, ` sur QWERTY)
-SC029::TriggerVideoshow()
+; ² (scan code 0x29) en hotkey global
+SC029::TriggerVideoshow(false)
 
-TriggerVideoshow()
+; F12 en hotkey debug pour tester sans la touche ²
+F12::TriggerVideoshow(true)
+
+TriggerVideoshow(debug)
 {
     global WINDOW_PATTERNS, FOCUS_DELAY_MS, SHOW_NOTIFICATIONS
 
-    previousHwnd := WinGetID("A")
-    foundHwnds := []
+    LogLine(debug ? "--- F12 (debug) ---" : "--- ² pressé ---")
 
-    ; Récupérer toutes les fenêtres dont le titre contient un des motifs
-    for pattern in WINDOW_PATTERNS
-    {
-        for hwnd in WinGetList(pattern)
-        {
-            ; Éviter les doublons
-            found := false
-            for existing in foundHwnds
-                if (existing = hwnd)
-                    found := true
-            if (!found)
-                foundHwnds.Push(hwnd)
-        }
-    }
+    previousHwnd := WinGetID("A")
+    LogLine("Fenêtre active avant : " (previousHwnd ? WinGetTitle("ahk_id " previousHwnd) : "(aucune)"))
+
+    foundHwnds := FindVideoshowWindows()
+    LogLine("Fenêtres trouvées : " foundHwnds.Length)
 
     if (foundHwnds.Length = 0)
     {
-        LogLine("Aucune fenêtre Videoshow trouvée.")
+        LogLine("AUCUNE fenêtre Videoshow détectée. Patterns testés : " JoinArr(WINDOW_PATTERNS))
         if (SHOW_NOTIFICATIONS)
-            TrayTip "Videoshow", "Aucune fenêtre Videoshow ouverte.", 0x10
+            TrayTip "Videoshow", "Aucune fenêtre Videoshow trouvée.`n(Le titre a-t-il changé ?)", 0x10
         return
     }
 
-    ; Envoyer ² à chaque fenêtre trouvée
+    sent := 0
     for hwnd in foundHwnds
     {
         title := WinGetTitle("ahk_id " hwnd)
+        LogLine("  -> Cible : " title)
         try
         {
             WinActivate("ahk_id " hwnd)
-            if (WinWaitActive("ahk_id " hwnd, , 0.3))
+            if (WinWaitActive("ahk_id " hwnd, , 0.4))
             {
                 SendInput("{SC029}")
                 Sleep(FOCUS_DELAY_MS)
-                LogLine("Envoyé ² à : " title)
+                if (debug)
+                {
+                    ; En debug on envoie aussi le caractère brut, au cas où
+                    ; Chrome filtre les keydown synthétiques.
+                    SendText("²")
+                    Sleep(FOCUS_DELAY_MS)
+                }
+                sent++
+                LogLine("     Touche envoyée OK")
             }
             else
             {
-                LogLine("Impossible d'activer : " title)
+                LogLine("     ÉCHEC : WinActivate n'a pas pris.")
             }
         }
         catch as e
         {
-            LogLine("Erreur sur '" title "' : " e.Message)
+            LogLine("     ERREUR : " e.Message)
         }
     }
 
@@ -112,7 +118,39 @@ TriggerVideoshow()
     }
 
     if (SHOW_NOTIFICATIONS)
-        TrayTip "Videoshow", foundHwnds.Length " fenêtre(s) ciblée(s).", 0x1
+    {
+        if (sent > 0)
+            TrayTip "Videoshow", sent " fenêtre(s) ciblée(s).", 0x1
+        else
+            TrayTip "Videoshow", "Trouvée mais impossible d'activer.", 0x10
+    }
+}
+
+FindVideoshowWindows()
+{
+    global WINDOW_PATTERNS
+    result := []
+    seen := Map()
+    for pattern in WINDOW_PATTERNS
+    {
+        for hwnd in WinGetList(pattern)
+        {
+            if (!seen.Has(hwnd))
+            {
+                seen[hwnd] := true
+                result.Push(hwnd)
+            }
+        }
+    }
+    return result
+}
+
+JoinArr(arr)
+{
+    s := ""
+    for v in arr
+        s .= (s = "" ? "" : ", ") v
+    return s
 }
 
 LogLine(text)
