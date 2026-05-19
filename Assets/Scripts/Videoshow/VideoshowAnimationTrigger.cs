@@ -11,8 +11,10 @@ namespace AuditionMorand.Videoshow
         [Tooltip("Si vrai, déclenche l'animation au démarrage de la scène.")]
         public bool triggerOnStart = false;
 
-        [Tooltip("Touche clavier qui déclenche l'animation. None pour désactiver.")]
-        public KeyCode triggerKey = KeyCode.Space;
+        [Tooltip("Touche clavier qui déclenche l'animation. None pour désactiver.\n" +
+                 "BackQuote = la touche ² sur AZERTY français (même position physique " +
+                 "que ` sur QWERTY).")]
+        public KeyCode triggerKey = KeyCode.BackQuote;
 
         private VideoshowClient client;
 
