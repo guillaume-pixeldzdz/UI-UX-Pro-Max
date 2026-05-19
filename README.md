@@ -8,7 +8,8 @@ Scripts Unity pour déclencher les animations de l'application **Videoshow VRA �
 ```
 Assets/Scripts/Videoshow/
 ├── VideoshowClient.cs            ← client HTTP générique (configurable dans l'inspecteur)
-├── VideoshowAnimationTrigger.cs  ← MonoBehaviour exemple : touche clavier → animation
+├── VideoshowAnimationTrigger.cs  ← touche clavier → animation (focus Unity requis)
+├── VideoshowGlobalHotkey.cs      ← touche clavier GLOBALE (marche même hors focus Unity, Windows)
 ├── VideoshowProbe.cs             ← sonde une liste de chemins pour découvrir l'API
 └── Demo/
     └── VideoshowDemo.cs          ← panneau OnGUI avec boutons de test
@@ -49,6 +50,24 @@ public class MonScript : MonoBehaviour
     }
 }
 ```
+
+## Touche globale (² même hors focus Unity)
+
+`VideoshowAnimationTrigger` utilise `Input.GetKeyDown` : ça ne fonctionne **que** quand
+la fenêtre Unity a le focus. Si vous voulez que la touche `²` déclenche l'animation
+même quand vous êtes dans une autre application :
+
+1. Sur le `GameObject` `VideoshowBridge`, **retirez** `VideoshowAnimationTrigger` et
+   **ajoutez** `VideoshowGlobalHotkey`.
+2. `Virtual Key Code` : laissez `0xDE` (= 222). C'est le code de la touche `²` sur
+   AZERTY français standard. Si ça ne marche pas, essayez `0xC0` (192).
+3. `Animation Id` : l'ID à déclencher.
+4. Dans **Edit → Project Settings → Player → Resolution and Presentation**,
+   cochez **Run In Background**. (Le script le force aussi par code, mais autant
+   l'activer aussi dans les settings pour le build.)
+
+Le composant lance un thread léger qui surveille la touche via l'API Windows
+`GetAsyncKeyState`. Windows uniquement (le hotkey global est désactivé sur Mac/Linux).
 
 ## Prérequis Unity
 
