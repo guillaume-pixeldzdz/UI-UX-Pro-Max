@@ -1,109 +1,118 @@
 ; =============================================================================
-;  videoshow-hotkey.ahk
+;  videoshow-hotkey.ahk  (version multi-écrans / multi-fenêtres)
 ;
 ;  Quand vous appuyez sur ² depuis n'importe quelle application,
-;  ce script renvoie la touche ² à la fenêtre Videoshow.
-;  Videoshow réagit alors comme si vous étiez sur sa fenêtre.
+;  ce script renvoie la touche ² à TOUTES les fenêtres Videoshow ouvertes
+;  (régie + affichage). La régie réagit, l'affichage ignore.
 ;
-;  Aucune URL ni API à découvrir : on imite simplement un appui de touche.
-;
-;  AutoHotkey v2 requis : https://www.autohotkey.com/  ("Download v2.0")
+;  AutoHotkey v2 requis : https://www.autohotkey.com/
 ;
 ;  Usage :
-;    1. Installer AutoHotkey v2 (gratuit, 5 Mo).
-;    2. S'assurer que Videoshow est lancé (le raccourci ouvre la régie Chrome).
-;    3. Double-cliquer sur ce .ahk : icône H verte dans la barre des tâches.
-;    4. Depuis n'importe quelle app, appuyer sur ² -> Videoshow joue l'animation.
-;    5. Pour stopper : clic droit sur l'icône H -> Exit.
-;
-;  Démarrage automatique avec Windows :
-;    Win+R -> shell:startup -> glissez un raccourci du .ahk dans ce dossier.
+;    1. Videoshow doit être ouvert (régie + affichage).
+;    2. Double-cliquer ce fichier : icône H verte dans la barre des tâches.
+;    3. Depuis n'importe quelle app : ² -> Videoshow joue l'animation.
+;    4. Pour arrêter : clic droit sur l'icône H -> Exit.
 ; =============================================================================
 
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 Persistent
 
+SetTitleMatchMode 2  ; "contient" partout dans le titre, pas seulement au début
+
 ; ---------------------------------------------------------------------------
 ;  CONFIGURATION
 ; ---------------------------------------------------------------------------
 
-; Identifiant de la fenêtre Videoshow (sera cherché dans le titre).
-; Si ça ne marche pas, mettez juste "Videoshow" ou "localhost:8123".
-WINDOW_TITLE := "Videoshow"
+; Liste de motifs cherchés dans le titre des fenêtres ouvertes.
+; Le script envoie la touche à toute fenêtre dont le titre contient un de ces motifs.
+; Ajoutez/retirez à votre convenance.
+WINDOW_PATTERNS := [
+    "Videoshow",
+    "Audition Morand",
+    "VRA",
+    "localhost:8123"
+]
 
-; true  : on active brièvement la fenêtre Videoshow puis on rend la main
-;         (méthode la plus fiable avec Chrome, mais on voit un flash).
-; false : on envoie la touche sans changer de fenêtre (silencieux mais
-;         Chrome ne le reçoit pas toujours — à tester chez vous).
-USE_FOCUS_METHOD := true
+; Délai (ms) pendant lequel chaque fenêtre garde le focus pour recevoir la touche.
+; 50-100 ms = bon compromis. Monter à 150 si l'animation ne se déclenche pas.
+FOCUS_DELAY_MS := 60
 
-; Délai (ms) pendant lequel Videoshow doit avoir le focus pour recevoir
-; la touche. 30-80 ms est un bon compromis.
-FOCUS_DELAY_MS := 50
-
-; Afficher une notification à chaque déclenchement (false pour ne pas être pollué).
+; Afficher une notification à chaque déclenchement (true/false).
 SHOW_NOTIFICATIONS := true
 
 ; Fichier de log ("" pour désactiver).
 LOG_FILE := A_ScriptDir "\videoshow-hotkey.log"
 
 ; ---------------------------------------------------------------------------
-;  Démarrage
-; ---------------------------------------------------------------------------
-TrayTip "Videoshow Hotkey", "Actif. Appuyez sur ² pour déclencher.", 0x1
-LogLine("Script démarré. Cible fenêtre : " WINDOW_TITLE)
+TrayTip "Videoshow Hotkey", "Actif. Appuyez sur ² depuis n'importe où.", 0x1
+LogLine("===== Démarrage =====")
 
-; ---------------------------------------------------------------------------
-;  Raccourci
-;  SC029 = scan code de la touche en haut à gauche (² sur AZERTY).
-;  Indépendant de la disposition clavier.
-; ---------------------------------------------------------------------------
+; SC029 = touche en haut à gauche du clavier (² sur AZERTY, ` sur QWERTY)
 SC029::TriggerVideoshow()
 
 TriggerVideoshow()
 {
-    global WINDOW_TITLE, USE_FOCUS_METHOD, FOCUS_DELAY_MS, SHOW_NOTIFICATIONS
+    global WINDOW_PATTERNS, FOCUS_DELAY_MS, SHOW_NOTIFICATIONS
 
-    targetHwnd := WinExist(WINDOW_TITLE)
-    if (!targetHwnd)
+    previousHwnd := WinGetID("A")
+    foundHwnds := []
+
+    ; Récupérer toutes les fenêtres dont le titre contient un des motifs
+    for pattern in WINDOW_PATTERNS
     {
-        LogLine("ERREUR : aucune fenêtre '" WINDOW_TITLE "' trouvée. Videoshow est-il lancé ?")
+        for hwnd in WinGetList(pattern)
+        {
+            ; Éviter les doublons
+            found := false
+            for existing in foundHwnds
+                if (existing = hwnd)
+                    found := true
+            if (!found)
+                foundHwnds.Push(hwnd)
+        }
+    }
+
+    if (foundHwnds.Length = 0)
+    {
+        LogLine("Aucune fenêtre Videoshow trouvée.")
         if (SHOW_NOTIFICATIONS)
-            TrayTip "Videoshow", "Fenêtre Videoshow introuvable.", 0x10
+            TrayTip "Videoshow", "Aucune fenêtre Videoshow ouverte.", 0x10
         return
     }
 
-    if (USE_FOCUS_METHOD)
+    ; Envoyer ² à chaque fenêtre trouvée
+    for hwnd in foundHwnds
     {
-        ; On mémorise la fenêtre courante, on bascule sur Videoshow, on tape ²,
-        ; on revient sur la fenêtre d'origine.
-        previousHwnd := WinGetID("A")
-
-        WinActivate("ahk_id " targetHwnd)
-        if (!WinWaitActive("ahk_id " targetHwnd, , 0.5))
+        title := WinGetTitle("ahk_id " hwnd)
+        try
         {
-            LogLine("ERREUR : impossible d'activer Videoshow.")
-            if (SHOW_NOTIFICATIONS)
-                TrayTip "Videoshow", "Impossible d'activer la fenêtre.", 0x10
-            return
+            WinActivate("ahk_id " hwnd)
+            if (WinWaitActive("ahk_id " hwnd, , 0.3))
+            {
+                SendInput("{SC029}")
+                Sleep(FOCUS_DELAY_MS)
+                LogLine("Envoyé ² à : " title)
+            }
+            else
+            {
+                LogLine("Impossible d'activer : " title)
+            }
         }
-
-        SendInput("{SC029}")
-        Sleep(FOCUS_DELAY_MS)
-
-        if (previousHwnd && previousHwnd != targetHwnd)
-            WinActivate("ahk_id " previousHwnd)
+        catch as e
+        {
+            LogLine("Erreur sur '" title "' : " e.Message)
+        }
     }
-    else
+
+    ; Revenir sur la fenêtre d'origine
+    if (previousHwnd)
     {
-        ; Méthode sans changement de focus. Peut ne pas marcher avec Chrome.
-        ControlSend("{SC029}", , "ahk_id " targetHwnd)
+        try WinActivate("ahk_id " previousHwnd)
     }
 
-    LogLine("Touche ² envoyée à Videoshow.")
     if (SHOW_NOTIFICATIONS)
-        TrayTip "Videoshow", "Animation déclenchée.", 0x1
+        TrayTip "Videoshow", foundHwnds.Length " fenêtre(s) ciblée(s).", 0x1
 }
 
 LogLine(text)
